@@ -1,5 +1,3 @@
-from properties import *
-
 def addBookPayload(isbn,aisle):
     body = {
 

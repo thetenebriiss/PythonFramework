@@ -1,8 +1,8 @@
 import requests
 from behave import *
 from payLoad import *
-from properties import *
-from resources import *
+from program.config.properties import *
+from program.config.resources import *
 
 
 @given('the Book details which needs to be added to Library')

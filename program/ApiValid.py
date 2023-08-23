@@ -1,6 +1,7 @@
 import requests
-from properties import urlPostCon
-import json
+from program.config.properties import urlPostCon
+
+
 def get_book_info(url):
     response = requests.get(url, params={'AuthorName': 'Rahul Shetty'})
     json_response = response.json()
