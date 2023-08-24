@@ -14,3 +14,4 @@ def after_scenario(context, scenario):
 
         print(res_json["msg"])
         assert res_json["msg"] == "book is successfully deleted"
+

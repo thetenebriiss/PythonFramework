@@ -14,6 +14,6 @@ Feature: Verify if Books are added and deleted using Library API
     When we execute the AddBook PostAPI method
     Then status code of response should be 200
       Examples:
-        |isbn  |  aisle |
-        | fdfee| 8948   |
-        | powr | 76333  |
+        |isbn |aisle |
+        |fdfee|8948  |
+        |powr |76333 |

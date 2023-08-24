@@ -24,6 +24,5 @@ def perform_book_operations(title, price):
     assert res_json["msg"] == "book is successfully deleted"
 
 
-# Call the function to execute the book operations
 if __name__ == "__main__":
-    perform_book_operations("fsfsf", 1244)
+    perform_book_operations("fsfsf", 1234)
