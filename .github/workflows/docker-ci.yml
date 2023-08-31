@@ -25,6 +25,4 @@ jobs:
       - name: Push Docker image
         run: docker run --rm -v "$(pwd)/allure-results:/app/allure-results" my-cucumber-app
 
-      - name: Start Allure server
-        run: allure serve allure-results
 
