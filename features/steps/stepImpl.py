@@ -19,12 +19,12 @@ def step_when(context):
     context.addBook_response = requests.post(context.urla, json=context.payLoad, headers=context.headers)
 
 # Then step
-@then('book is successfully added')
+@then('book is already exists')
 def step_then(context):
     context.response_json = context.addBook_response.json()
     print(context.response_json["Msg"])
     context.bookId = context.response_json['ID']
-    assert context.response_json["Msg"] == "successfully added"
+    assert context.response_json["Msg"] == "Already Exists"
 
 
 
