@@ -2,34 +2,63 @@ import mysql.connector
 from program.config.properties import *
 
 
-def execute_database_query():
-    conn = mysql.connector.connect(host=host, database=database, user=user, password=password)
+class DatabaseManager:
+    def __init__(self, host, database, user, password):
+        self.host = host
+        self.database = database
+        self.user = user
+        self.password = password
+        self.conn = None
 
-    assert conn.is_connected() == True
+    def connect(self):
+        self.conn = mysql.connector.connect(
+            host=self.host,
+            database=self.database,
+            user=self.user,
+            password=self.password
+        )
+        assert self.conn.is_connected()
 
-    cursor = conn.cursor()
+    def execute_query(self, query):
+        cursor = self.conn.cursor()
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        cursor.close()
+        return rows
 
-    cursor.execute('select * from CustomerInfo')
-    rows = cursor.fetchall()
-    print(rows)
+    def update_records(self, query, data):
+        cursor = self.conn.cursor()
+        cursor.execute(query, data)
+        self.conn.commit()
+        cursor.close()
 
-    sum = 0
-    for row in rows:
-        sum = sum + row[2]
-
-    print(sum)
-    assert sum == 722
-
-    query = "update customerInfo set Location = %s where CourseName = %s"
-    data = ("UK", "Jmeter")
-
-    cursor.execute(query, data)
-    conn.commit()
-
-    conn.close()
+    def close_connection(self):
+        if self.conn:
+            self.conn.close()
 
 
-# Call the function to execute the database query
 if __name__ == "__main__":
-    execute_database_query()
+    host = "your_host"
+    database = "your_database"
+    user = "your_user"
+    password = "your_password"
+
+    db_manager = DatabaseManager(host, database, user, password)
+
+    try:
+        db_manager.connect()
+
+        query = 'select * from CustomerInfo'
+        rows = db_manager.execute_query(query)
+        print(rows)
+
+        total_sum = sum(row[2] for row in rows)
+        print(total_sum)
+        assert total_sum == 722
+
+        update_query = "update CustomerInfo set Location = %s where CourseName = %s"
+        update_data = ("UK", "Jmeter")
+        db_manager.update_records(update_query, update_data)
+    finally:
+        db_manager.close_connection()
 

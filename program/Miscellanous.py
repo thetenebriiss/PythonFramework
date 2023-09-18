@@ -1,16 +1,27 @@
 import requests
 from program.config.properties import *
 
-def perform_cookie_operations(urlCookSa, urlCookfi):
-    cookie = {'visit-month': 'February'}
-    response = requests.get(urlCookSa, allow_redirects=False, cookies=cookie, timeout=1)
+class CookieManager:
+    def __init__(self, url):
+        self.url = url
+        self.session = requests.session()
 
-    assert response.status_code == 301
+    def set_cookie(self, name, value):
+        self.session.cookies.update({name: value})
 
-    session = requests.session()
-    session.cookies.update({'visit-month': 'February'})
+    def get_request(self):
+        response = self.session.get(self.url)
+        return response
 
-    response = session.get(urlCookfi, cookies={'visit-year': '2022'})
+if __name__ == "__main__":
+    cookie_manager = CookieManager(urlCookSa)
+
+    cookie_manager.set_cookie('visit-month', 'February')
+    response = cookie_manager.get_request()
+
+    assert response.status_code == 200
+
+    cookie_manager.set_cookie('visit-year', '2022')
+    response = cookie_manager.get_request()
+
     print(response.text)
-
-perform_cookie_operations(urlCookSa, urlCookfi)
