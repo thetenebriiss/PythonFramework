@@ -38,10 +38,6 @@ class DatabaseManager:
 
 
 if __name__ == "__main__":
-    host = host
-    database = database
-    user = user
-    password = password
 
     db_manager = DatabaseManager(host, database, user, password)
 
